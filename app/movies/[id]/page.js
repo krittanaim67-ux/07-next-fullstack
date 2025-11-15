@@ -2,7 +2,7 @@
 import Link from "next/link";
 
 export default async function MovieDetail({ params }) {
-  const res = await fetch(`http://localhost:3000/api/movies/${params.id}`, { cache: "no-store" });
+  const res = await fetch(`/api/movies/${params.id}`, { cache: "no-store" });  // ❗ ใช้ /api/... อย่างเดียว
   if (!res.ok) {
     return <div style={{ padding: 24, color: "tomato" }}>Cannot load /api/movies/{params.id}</div>;
   }
@@ -11,12 +11,10 @@ export default async function MovieDetail({ params }) {
   return (
     <div className="detailWrap">
       <div className="detailCard">
-        {/* โปสเตอร์ด้านซ้าย */}
         <div className="detailPoster">
           <img src={movie.image_url} alt={movie.title} />
         </div>
 
-        {/* เนื้อหาด้านขวา */}
         <div className="detailBody">
           <div className="yearChip">{movie.year}</div>
           <h1 className="detailTitle">{movie.title}</h1>
@@ -33,5 +31,6 @@ export default async function MovieDetail({ params }) {
     </div>
   );
 }
+
 
 

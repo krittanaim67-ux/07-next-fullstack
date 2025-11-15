@@ -2,7 +2,7 @@
 import Link from "next/link";
 
 export default async function MoviesPage() {
-  const res = await fetch("http://localhost:3000/api/movies", { cache: "no-store" });
+  const res = await fetch("/api/movies", { cache: "no-store" });   // ❗ เปลี่ยนตรงนี้
   if (!res.ok) {
     return <div style={{ padding: 20, color: "tomato" }}>Cannot load /api/movies</div>;
   }
@@ -33,6 +33,7 @@ export default async function MoviesPage() {
     </div>
   );
 }
+
 
 
 
