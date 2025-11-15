@@ -1,31 +1,23 @@
 // app/page.js
+import Link from "next/link";
 
-export default function HomePage() {
+export default function Home() {
   return (
-    <main className="wrap">
-      <h1 className="title">Welcome</h1>
-      <p style={{ marginTop: "12px" }}>
-        This is the home page. Click the link below to open the movie gallery.
-      </p>
+    <main className="min-h-screen bg-[#050509] text-white flex items-center justify-center">
+      <div className="text-center space-y-6">
+        <h1 className="text-5xl font-bold">Welcome</h1>
+        <p className="text-lg">
+          This is the home page. Click the link below to open the movie gallery.
+        </p>
 
-      <a
-        href="/movies"
-        style={{
-          display: "inline-block",
-          marginTop: "20px",
-          padding: "10px 18px",
-          borderRadius: "999px",
-          background: "linear-gradient(120deg, #6366f1, #ec4899)",
-          color: "#fff",
-          textDecoration: "none",
-          fontWeight: 600,
-        }}
-      >
-        🎬 Go to Movie Gallery
-      </a>
+        <Link
+          href="/movies"
+          className="inline-flex items-center px-8 py-3 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 text-lg font-semibold shadow-lg hover:opacity-90 transition"
+        >
+          <span className="mr-2 text-2xl">🎬</span>
+          Go to Movie Gallery
+        </Link>
+      </div>
     </main>
   );
 }
-
-
-
