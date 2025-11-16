@@ -1,3 +1,4 @@
+// utils/db.js
 import mysql from "mysql2/promise";
 
 export const pool = mysql.createPool({
@@ -8,6 +9,6 @@ export const pool = mysql.createPool({
   database: process.env.DB_NAME,
   ssl: {
     minVersion: "TLSv1.2",
-    rejectUnauthorized: false, // <-- เปลี่ยนตรงนี้!!
+    rejectUnauthorized: false, // ให้ผ่าน SSL จาก TiDB
   },
 });

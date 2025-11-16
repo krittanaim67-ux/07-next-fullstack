@@ -1,25 +1,24 @@
 // app/api/movies/[id]/route.js
-export const dynamic = 'force-dynamic';
+import { NextResponse } from "next/server";
+import { pool } from "@/utils/db";
 
-import { pool } from '../../../../utils/db';
-
-export async function GET(request, { params }) {
-  const { id } = params; // /api/movies/1 → id = '1'
-
+export async function GET(_req, { params }) {
   try {
     const [rows] = await pool.query(
-      'SELECT id, title, description, image_url, year, created_at FROM movies WHERE id = ?',
-      [id]
+      "SELECT id, title, year, description, image_url FROM movies WHERE id = ?",
+      [params.id]
     );
 
     if (rows.length === 0) {
-      return Response.json({ message: 'Movie not found' }, { status: 404 });
+      return NextResponse.json({ message: "Not found" }, { status: 404 });
     }
 
-    // ส่งแค่ object เดียว
-    return Response.json(rows[0], { status: 200 });
+    return NextResponse.json(rows[0]);
   } catch (err) {
-    console.error(`GET /api/movies/${id} error:`, err);
-    return Response.json({ message: 'Server error' }, { status: 500 });
+    console.error("GET /api/movies/[id] error:", err);
+    return NextResponse.json(
+      { message: "DB error at /api/movies/[id]", error: String(err) },
+      { status: 500 }
+    );
   }
 }

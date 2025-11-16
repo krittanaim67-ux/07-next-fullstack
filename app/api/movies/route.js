@@ -1,18 +1,18 @@
 // app/api/movies/route.js
-export const dynamic = 'force-dynamic';
-
-import { pool } from '../../../utils/db';
+import { NextResponse } from "next/server";
+import { pool } from "@/utils/db";
 
 export async function GET() {
   try {
     const [rows] = await pool.query(
-      'SELECT id, title, description, image_url, year, created_at FROM movies ORDER BY id'
+      "SELECT id, title, year, description, image_url FROM movies ORDER BY id"
     );
-
-    // ส่งเป็น array ของ movie ทั้งหมด
-    return Response.json(rows, { status: 200 });
+    return NextResponse.json(rows);
   } catch (err) {
-    console.error('GET /api/movies error:', err);
-    return Response.json({ message: 'Server error' }, { status: 500 });
+    console.error("GET /api/movies error:", err);
+    return NextResponse.json(
+      { message: "DB error at /api/movies", error: String(err) },
+      { status: 500 }
+    );
   }
 }

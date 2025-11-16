@@ -1,9 +1,18 @@
 // app/movies/page.js
 import Link from "next/link";
 
-const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+function getBaseUrl() {
+  if (process.env.VERCEL_URL) {
+    // เวลาอยู่บน Vercel
+    return `https://${process.env.VERCEL_URL}`;
+  }
+  // เวลา dev ในเครื่อง
+  return "http://localhost:3000";
+}
 
 export default async function MoviesPage() {
+  const baseUrl = getBaseUrl();
+
   const res = await fetch(`${baseUrl}/api/movies`, {
     cache: "no-store",
   });
@@ -11,7 +20,7 @@ export default async function MoviesPage() {
   if (!res.ok) {
     return (
       <div style={{ padding: 20, color: "tomato" }}>
-        Cannot load /api/movies
+        Cannot load <code>/api/movies</code> (status {res.status})
       </div>
     );
   }
