@@ -1,31 +1,31 @@
 // app/movies/page.js
+
 import Link from "next/link";
 
-function getBaseUrl() {
-  if (process.env.VERCEL_URL) {
-    // เวลาอยู่บน Vercel
-    return `https://${process.env.VERCEL_URL}`;
-  }
-  // เวลา dev ในเครื่อง
-  return "http://localhost:3000";
-}
+// ข้อมูลหนัง mock (แทนการดึงจาก DB/API)
+const MOVIES = [
+  {
+    id: 1,
+    title: "Inception",
+    description:
+      "A dream heist movie where people enter dreams to steal secrets.",
+    year: 2010,
+    image_url:
+      "https://images7.alphacoders.com/586/thumb-1920-586904.jpg",
+  },
+  {
+    id: 2,
+    title: "Interstellar",
+    description:
+      "A group of astronauts travel through a wormhole in search of a new home for humanity.",
+    year: 2014,
+    image_url:
+      "https://images6.alphacoders.com/851/thumb-1920-851633.jpg",
+  },
+];
 
-export default async function MoviesPage() {
-  const baseUrl = getBaseUrl();
-
-  const res = await fetch(`${baseUrl}/api/movies`, {
-    cache: "no-store",
-  });
-
-  if (!res.ok) {
-    return (
-      <div style={{ padding: 20, color: "tomato" }}>
-        Cannot load <code>/api/movies</code> (status {res.status})
-      </div>
-    );
-  }
-
-  const movies = await res.json();
+export default function MoviesPage() {
+  const movies = MOVIES; // ไม่ต้อง fetch แล้ว ใช้ array ตรง ๆ
 
   return (
     <div className="wrap">
@@ -52,8 +52,6 @@ export default async function MoviesPage() {
     </div>
   );
 }
-
-
 
 
 
