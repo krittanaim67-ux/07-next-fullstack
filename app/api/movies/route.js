@@ -1,18 +1,29 @@
 // app/api/movies/route.js
 import { NextResponse } from "next/server";
-import { pool } from "@/utils/db";
+
+// mock data แทนการดึงจาก DB ชั่วคราว
+const MOVIES = [
+  {
+    id: 1,
+    title: "Inception",
+    description:
+      "A dream heist movie where people enter dreams to steal secrets.",
+    year: 2010,
+    image_url:
+      "https://images7.alphacoders.com/586/thumb-1920-586904.jpg",
+  },
+  {
+    id: 2,
+    title: "Interstellar",
+    description:
+      "A group of astronauts travel through a wormhole in search of a new home for humanity.",
+    year: 2014,
+    image_url:
+      "https://images6.alphacoders.com/851/thumb-1920-851633.jpg",
+  },
+];
 
 export async function GET() {
-  try {
-    const [rows] = await pool.query(
-      "SELECT id, title, year, description, image_url FROM movies ORDER BY id"
-    );
-    return NextResponse.json(rows);
-  } catch (err) {
-    console.error("GET /api/movies error:", err);
-    return NextResponse.json(
-      { message: "DB error at /api/movies", error: String(err) },
-      { status: 500 }
-    );
-  }
+  // ไม่เรียก DB เลย ส่ง mock data กลับไปตรง ๆ
+  return NextResponse.json(MOVIES);
 }

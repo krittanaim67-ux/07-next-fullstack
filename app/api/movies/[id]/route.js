@@ -1,24 +1,34 @@
 // app/api/movies/[id]/route.js
 import { NextResponse } from "next/server";
-import { pool } from "@/utils/db";
+
+const MOVIES = [
+  {
+    id: 1,
+    title: "Inception",
+    description:
+      "A dream heist movie where people enter dreams to steal secrets.",
+    year: 2010,
+    image_url:
+      "https://images7.alphacoders.com/586/thumb-1920-586904.jpg",
+  },
+  {
+    id: 2,
+    title: "Interstellar",
+    description:
+      "A group of astronauts travel through a wormhole in search of a new home for humanity.",
+    year: 2014,
+    image_url:
+      "https://images6.alphacoders.com/851/thumb-1920-851633.jpg",
+  },
+];
 
 export async function GET(_req, { params }) {
-  try {
-    const [rows] = await pool.query(
-      "SELECT id, title, year, description, image_url FROM movies WHERE id = ?",
-      [params.id]
-    );
+  const id = Number(params.id);
+  const movie = MOVIES.find((m) => m.id === id);
 
-    if (rows.length === 0) {
-      return NextResponse.json({ message: "Not found" }, { status: 404 });
-    }
-
-    return NextResponse.json(rows[0]);
-  } catch (err) {
-    console.error("GET /api/movies/[id] error:", err);
-    return NextResponse.json(
-      { message: "DB error at /api/movies/[id]", error: String(err) },
-      { status: 500 }
-    );
+  if (!movie) {
+    return NextResponse.json({ message: "Movie not found" }, { status: 404 });
   }
+
+  return NextResponse.json(movie);
 }
