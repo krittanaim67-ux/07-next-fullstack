@@ -8,6 +8,6 @@ export const pool = mysql.createPool({
   database: process.env.DB_NAME,
   ssl: {
     minVersion: "TLSv1.2",
-    rejectUnauthorized: true,
+    rejectUnauthorized: false, // <-- เปลี่ยนตรงนี้!!
   },
 });

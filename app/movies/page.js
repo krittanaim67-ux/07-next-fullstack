@@ -1,11 +1,21 @@
 // app/movies/page.js
 import Link from "next/link";
 
+const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+
 export default async function MoviesPage() {
-  const res = await fetch("/api/movies", { cache: "no-store" });   // ❗ เปลี่ยนตรงนี้
+  const res = await fetch(`${baseUrl}/api/movies`, {
+    cache: "no-store",
+  });
+
   if (!res.ok) {
-    return <div style={{ padding: 20, color: "tomato" }}>Cannot load /api/movies</div>;
+    return (
+      <div style={{ padding: 20, color: "tomato" }}>
+        Cannot load /api/movies
+      </div>
+    );
   }
+
   const movies = await res.json();
 
   return (
