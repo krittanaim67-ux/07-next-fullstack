@@ -9,6 +9,6 @@ export const pool = mysql.createPool({
   database: process.env.DB_NAME,
   ssl: {
     minVersion: "TLSv1.2",
-    rejectUnauthorized: false, // ให้ผ่าน SSL จาก TiDB
+    rejectUnauthorized: false, // TiDB Cloud ส่วนใหญ่ต้อง false
   },
 });

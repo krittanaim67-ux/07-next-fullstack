@@ -3,18 +3,18 @@ import Link from "next/link";
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-[#050509] text-white flex items-center justify-center">
-      <div className="text-center space-y-6">
-        <h1 className="text-5xl font-bold">Welcome</h1>
-        <p className="text-lg">
-          This is the home page. Click the link below to open the movie gallery.
-        </p>
+    <main className="wrap">
+      <header className="topbar">
+        <span className="logo">🎬</span>
+        <h1 className="title">Welcome</h1>
+      </header>
 
-        <Link
-          href="/movies"
-          className="inline-flex items-center px-8 py-3 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 text-lg font-semibold shadow-lg hover:opacity-90 transition"
-        >
-          <span className="mr-2 text-2xl">🎬</span>
+      <p style={{ marginTop: 12, fontSize: 16 }}>
+        This is the home page. Click the link below to open the movie gallery.
+      </p>
+
+      <div style={{ marginTop: 16 }}>
+        <Link href="/movies" className="btnBack">
           Go to Movie Gallery
         </Link>
       </div>

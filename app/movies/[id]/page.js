@@ -1,40 +1,30 @@
 // app/movies/[id]/page.js
-
 import Link from "next/link";
+import { headers } from "next/headers";
 
-// ข้อมูล mock ใช้เหมือนกันกับหน้า /movies
-const MOVIES = [
-  {
-    id: 1,
-    title: "Inception",
-    description:
-      "A dream heist movie where people enter dreams to steal secrets.",
-    year: 2010,
-    image_url:
-      "https://images7.alphacoders.com/586/thumb-1920-586904.jpg",
-  },
-  {
-    id: 2,
-    title: "Interstellar",
-    description:
-      "A group of astronauts travel through a wormhole in search of a new home for humanity.",
-    year: 2014,
-    image_url:
-      "https://images6.alphacoders.com/851/thumb-1920-851633.jpg",
-  },
-];
+function getBaseUrl() {
+  const h = headers();
+  const host = h.get("x-forwarded-host") ?? h.get("host");
+  const proto = h.get("x-forwarded-proto") ?? "http";
+  return `${proto}://${host}`;
+}
 
-export default function MovieDetail({ params }) {
-  const id = Number(params.id);
-  const movie = MOVIES.find((m) => m.id === id);
+export default async function MovieDetail({ params }) {
+  const baseUrl = getBaseUrl();
 
-  if (!movie) {
+  const res = await fetch(`${baseUrl}/api/movies/${params.id}`, {
+    cache: "no-store",
+  });
+
+  if (!res.ok) {
     return (
       <div style={{ padding: 24, color: "tomato" }}>
-        Movie not found (id: {id})
+        Cannot load /api/movies/{params.id} (status {res.status})
       </div>
     );
   }
+
+  const movie = await res.json();
 
   return (
     <div className="detailWrap">
@@ -57,8 +47,8 @@ export default function MovieDetail({ params }) {
             <a
               href={movie.image_url}
               target="_blank"
-              className="btnGhost"
               rel="noreferrer"
+              className="btnGhost"
             >
               Open Poster
             </a>

@@ -1,31 +1,30 @@
 // app/movies/page.js
-
 import Link from "next/link";
+import { headers } from "next/headers";
 
-// ข้อมูลหนัง mock (แทนการดึงจาก DB/API)
-const MOVIES = [
-  {
-    id: 1,
-    title: "Inception",
-    description:
-      "A dream heist movie where people enter dreams to steal secrets.",
-    year: 2010,
-    image_url:
-      "https://images7.alphacoders.com/586/thumb-1920-586904.jpg",
-  },
-  {
-    id: 2,
-    title: "Interstellar",
-    description:
-      "A group of astronauts travel through a wormhole in search of a new home for humanity.",
-    year: 2014,
-    image_url:
-      "https://images6.alphacoders.com/851/thumb-1920-851633.jpg",
-  },
-];
+function getBaseUrl() {
+  const h = headers();
+  const host = h.get("x-forwarded-host") ?? h.get("host");
+  const proto = h.get("x-forwarded-proto") ?? "http";
+  return `${proto}://${host}`;
+}
 
-export default function MoviesPage() {
-  const movies = MOVIES; // ไม่ต้อง fetch แล้ว ใช้ array ตรง ๆ
+export default async function MoviesPage() {
+  const baseUrl = getBaseUrl();
+
+  const res = await fetch(`${baseUrl}/api/movies`, {
+    cache: "no-store",
+  });
+
+  if (!res.ok) {
+    return (
+      <div style={{ padding: 24, color: "tomato" }}>
+        Cannot load /api/movies (status {res.status})
+      </div>
+    );
+  }
+
+  const movies = await res.json();
 
   return (
     <div className="wrap">
