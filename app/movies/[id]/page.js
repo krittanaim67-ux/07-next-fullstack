@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 
-// ต้องใช้ mock เดียวกันเพื่อดึงข้อมูลตาม id
+// ข้อมูล mock ใช้เหมือนกันกับหน้า /movies
 const MOVIES = [
   {
     id: 1,
